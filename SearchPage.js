@@ -26,7 +26,7 @@ var styles = StyleSheet.create({
 	}
 });
 
-class SearchPage extends Componet {
+class SearchPage extends Component {
 	render() {
 		return (
 			<View style={styles.container}>
