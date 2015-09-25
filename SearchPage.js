@@ -130,8 +130,10 @@ class SearchPage extends Component {
 						style={styles.buttonText}>Go</Text>
 					</TouchableHighlight>
 				</View>
-				<TouchableHighlight style={styles.button} 
-				underlayColor='#99d9f4'>
+				<TouchableHighlight 
+					style={styles.button} 
+					onPress={this.onLocationPressed.bind(this)}
+					underlayColor='#99d9f4'>
 					<Text style={styles.buttonText}>Location</Text>
 				</TouchableHighlight>
 				<Image source={require('image!house')} style={styles.image} />
@@ -145,6 +147,21 @@ class SearchPage extends Component {
 		console.log('onSearchTextChanged');
 		this.setState({ searchString: event.nativeEvent.text });
 		console.log(this.state.searchString);
+	}
+
+	onLocationPressed() {
+		navigator.geolocation.getCurrentPosition(
+			location => {
+				var search = location.coords.latitude + ',' + location.coords.longitude;
+				this.setState({searchString: search});
+				var query = urlForQueryAndPage('centre_point', search, 1);
+				this._executeQuery(query);
+			},
+			error => {
+				this.setState({
+					message: 'There was a problem with obtaining your location: ' + error
+				});
+			});
 	}
 
 	_executeQuery(query) {
